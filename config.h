@@ -14,7 +14,7 @@ static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#ff0000";
+static const char col_cyan[]        = "#00bdfe";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -31,6 +31,8 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	{ "Chromium",     NULL,       NULL,       1 << 0,       False,       -1 }, 
+
 };
 
 /* layout(s) */
@@ -51,8 +53,8 @@ static const char *volupcmd[] = { "pactl", "set-sink-volume", "0", "+5%", NULL }
 static const char *voldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
 
 /* backlight */
-static const char *brupcmd[] = { "sudo", "xbacklight", "-inc", "10", NULL };
-static const char *brdowncmd[] = { "sudo", "xbacklight", "-dec", "10", NULL };
+static const char *brupcmd[] = { "/usr/bin/light", "-A", "5", NULL };
+static const char *brdowncmd[] = { "/usr/bin/light", "-U", "5", NULL };
 
 /* key definitions */
 #define MODKEY Mod1Mask
@@ -69,6 +71,7 @@ static const char *brdowncmd[] = { "sudo", "xbacklight", "-dec", "10", NULL };
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char  *chromiumcmd[] = { "chromium",  NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -108,6 +111,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask, 		XK_b,	   spawn, 	   {.v = chromiumcmd } },
 	{ 0, 				XF86XK_AudioMute, spawn, {.v = mutecmd } },
 	{ 0, 				XF86XK_AudioLowerVolume, spawn, {.v = voldowncmd } },
 	{ 0,				XF86XK_AudioRaiseVolume, spawn, {.v = volupcmd } },
